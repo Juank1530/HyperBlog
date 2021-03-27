@@ -197,3 +197,75 @@ se puede solucionar mediante el siguiente meta charset ;
 <metacharset=“UTF-8” />
 …
 </head>
+********************************************************************
+public keys
+
+Generar una nueva llave SSH: (Cualquier sistema operativo)
+
+ssh-keygen -t rsa -b 4096 -C "youremail@example.com"
+
+Comprobar proceso y agregarlo (Windows)
+
+eval $(ssh-agent - s)
+ssh-add ~/.ssh/id_rsa
+Comprobar proceso y agregarlo (Mac)
+
+eval "$(ssh-agent -s)"
+¿Usas macOS Sierra 10.12.2 o superior?
+Haz lo siguiente:
+
+cd ~/.ssh
+Crea un archivo config…
+Con Vim vim config
+Con VSCode code config
+Pega la siguiente configuración en el archivo…
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+Agrega tu llave
+
+ssh-add -K ~/.ssh/id_rsa
+🥳
+--------------------------------------
+SSH o Secure Shell: Es un protocolo de red que permite acceso remoto seguro a través de una conexión encriptada. Este método de autenticación requiere un passphrase (contraseña) o tambien puede funcionar sin passphrase sobre la clave.
+.
+En el directorio Home ~
+
+$ git config -l: Muestra la configuración dentro de Git(user y email), Este comando funciona por que Git esta instalado en todo el equipo local.
+.
+$ git config --global user.email “nombre_email_cambiado” : Se puede utilizar este mismo comando para cambiar el email.
+.
+Creamos la llave SSH
+
+$ ssh-keygen -t rsa -b 4096 -C "tu_email@gmail.com"
+-t = Especifica cual es el algoritmo que vamos a usar para crear esa llave.
+rsa = Algoritmo a usar, hasta el momento el mas popular.
+-b = Especifica que tan compleja es la llave.
+4096 = Complejidad de la llave desde una perspectiva matemática.
+-C = Indica a que correo electrónico va estar conectado esta llave
+"tu_email@gmail.com" = Correo electrónico.
+.
+Dato: Guardar la llave en la dirección predeterminada.
+Dato2: Passphrase: Password con espacios o Contraseña adicional de texto que le vas a poner a tu llave pública y privada.
+.
+1er Paso:
+Una ves que tengamos la llave, tenemos que agregarlo al entorno, y el entorno es básicamente que el sistema operativo donde tu trabajas sepa que la llave existe. Para ello ejecutamos lo sgte:
+.
+revisar el servidor de llaves / Evalúa que un comando se dispare.
+
+$ eval $(ssh-agent -s)
+Dato: Agent pid 4724
+
+Agent = Significa que el servidor de SHH esta corriendo.
+pid = Process id o identificador del proceso.
+4724 = Número que al sistema operativo le dice que el proceso esta corriendo.
+.
+2do Paso:
+
+Agregamos la llave privada a nuestro sistema o al servidor por que no basta con que la llave solo exista, sino debemos decirle que existe. Para ello ejecutamos el siguiente comando:
+
+$ ssh-add ~/.ssh/id_rsa
+~ = Home
+.ssh = carpeta ssh
+id_rsa = llave privada la que nunca debemos de mostrar.
